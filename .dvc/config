@@ -1,0 +1,5 @@
+[core]
+    remote = s3remote
+['remote "s3remote"']
+    url = s3://us-pr-diabetes-trends-2000-2014
+    profile = dvc-us-pr-diabetes-trends-2000-2014
