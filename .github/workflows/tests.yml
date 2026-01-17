@@ -30,8 +30,8 @@ jobs:
       - name: Pull test fixtures from S3
         run: |
           # Configure DVC to use env vars
-          uv run dvc remote modify s3 aws_access_key_id "$AWS_ACCESS_KEY_ID"
-          uv run dvc remote modify s3 aws_secret_access_key "$AWS_SECRET_ACCESS_KEY"
+          uv run dvc remote modify s3remote aws_access_key_id "$AWS_ACCESS_KEY_ID"
+          uv run dvc remote modify s3remote aws_secret_access_key "$AWS_SECRET_ACCESS_KEY"
           # Pull test fixtures
           uv run dvc pull $(find src/tests/ -name "*.dvc" -type f)
         env:
