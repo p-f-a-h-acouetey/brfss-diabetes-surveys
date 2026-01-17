@@ -27,13 +27,17 @@ jobs:
       - name: Setup Python & dependencies
         run: uv sync --all-extras --dev --python 3.12.12
 
-      # Pulls ONLY .dvc files in src/tests/ recursively
       - name: Pull test fixtures from S3
         run: |
+          # Configure DVC to use env vars
+          uv run dvc remote modify s3 aws_access_key_id "$AWS_ACCESS_KEY_ID"
+          uv run dvc remote modify s3 aws_secret_access_key "$AWS_SECRET_ACCESS_KEY"
+          # Pull test fixtures
           uv run dvc pull $(find src/tests/ -name "*.dvc" -type f)
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.DVC_US_PR_DIABETES_TRENDS_2000_2014_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.DVC_US_PR_DIABETES_TRENDS_2000_2014_SECRET_ACCESS_KEY }}
+
 
       - name: Run tests with pytest
         run: uv run pytest src/tests/ --cov=src/ --cov-report=xml
