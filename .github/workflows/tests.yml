@@ -27,17 +27,21 @@ jobs:
       - name: Setup Python & dependencies
         run: uv sync --all-extras --dev --python 3.12.12
 
-      - name: Pull test fixtures from S3
+      - name: Configure AWS Credentials
         run: |
-          # Configure DVC to use env vars
-          uv run dvc remote modify s3remote aws_access_key_id "$AWS_ACCESS_KEY_ID"
-          uv run dvc remote modify s3remote aws_secret_access_key "$AWS_SECRET_ACCESS_KEY"
-          # Pull test fixtures
-          uv run dvc pull $(find src/tests/ -name "*.dvc" -type f)
-        env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.DVC_US_PR_DIABETES_TRENDS_2000_2014_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.DVC_US_PR_DIABETES_TRENDS_2000_2014_SECRET_ACCESS_KEY }}
+          mkdir -p ~/.aws
+          echo "[profile dvc-us-pr-diabetes-trends-2000-2014]" > ~/.aws/config 
+          echo "aws_access_key_id=${{ secrets.DVC_US_PR_DIABETES_TRENDS_2000_2014_ACCESS_KEY_ID }}" >> ~/.aws/config
+          echo "aws_secret_access_key=${{ secrets.DVC_US_PR_DIABETES_TRENDS_2000_2014_SECRET_ACCESS_KEY }}" >> ~/.aws/config
 
+      - name: Run DVC Doctor
+        run: uv run dvc doctor
+
+      - name: Clean DVC Temporary Files
+        run: rm -rf .dvc/tmp
+
+      - name: Pull test fixtures from S3
+        run: uv run dvc pull $(find src/tests/ -name "*.dvc" -type f)
 
       - name: Run tests with pytest
         run: uv run pytest src/tests/ --cov=src/ --cov-report=xml
