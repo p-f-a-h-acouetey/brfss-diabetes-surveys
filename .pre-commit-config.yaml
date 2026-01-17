@@ -3,10 +3,10 @@
 repos:
 
   # ═══════════════════════════════════════════════════════════════════════════
-  # 1. RUFF - LINTING + FORMATTING (Replaces Flake8, Black, isort - 150x faster)
+  # 1. RUFF - LINTING + FORMATTING
   # ═══════════════════════════════════════════════════════════════════════════
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.14.0  # Stable pinned version
+    rev: v0.14.0
     hooks:
       # DETECTS + AUTO-FIXES linting errors
       - id: ruff-check
@@ -20,10 +20,10 @@ repos:
         # Ensures consistent style across team - zero configuration needed
 
   # ═══════════════════════════════════════════════════════════════════════════
-  # 2. FILE CLEANLINESS (Professional Git Hygiene)
+  # 2. FILE CLEANLINESS
   # ═══════════════════════════════════════════════════════════════════════════
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v4.6.0  # Industry standard
+    rev: v4.6.0
     hooks:
       # VALIDATES YAML/JSON config files
       - id: check-yaml
@@ -41,7 +41,7 @@ repos:
   # 3. UV LOCK - REPRODUCIBLE DEPENDENCIES
   # ═══════════════════════════════════════════════════════════════════════════
   - repo: https://github.com/astral-sh/uv-pre-commit
-    rev: 0.9.26  # Latest stable (no 'v' prefix)
+    rev: 0.9.26
     hooks:
       # SYNC uv.lock with pyproject.toml before commit
       - id: uv-lock

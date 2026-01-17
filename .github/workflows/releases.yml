@@ -1,0 +1,44 @@
+name: Release us-pr-diabetes-trends-2000-2014
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+    branches: ["main"]
+
+permissions:
+  contents: write
+  issues: write
+  pull-requests: write
+
+jobs:
+  release:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Full git history
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+
+      - name: Set up Python 3.12.12
+        run: uv python pin 3.12.12
+
+      - name: Sync dependencies
+        run: uv sync
+
+      - name: Semantic Release
+        id: release
+        uses: python-semantic-release/python-semantic-release@v10
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Publish to GitHub Releases
+        if: steps.release.outputs.released == 'true'
+        uses: python-semantic-release/upload-to-gh-release@main
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}

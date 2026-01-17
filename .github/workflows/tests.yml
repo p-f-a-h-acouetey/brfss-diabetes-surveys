@@ -1,0 +1,44 @@
+name: Test us-pr-diabetes-trends-2000-2014
+
+on:
+  push:
+    branches: [ "main", "develop"]
+  pull_request:
+    branches: [ "main", "develop" ]
+
+permissions:
+  contents: write
+  issues: write
+  pull-requests: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          version: latest
+
+      - name: Setup Python & dependencies
+        run: uv sync --all-extras --dev --python 3.12.12
+
+      # Pulls ONLY .dvc files in src/tests/ recursively
+      - name: Pull test fixtures from S3
+        run: |
+          uv run dvc pull $(find src/tests/ -name "*.dvc" -type f)
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.DVC_US_PR_DIABETES_TRENDS_2000_2014_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.DVC_US_PR_DIABETES_TRENDS_2000_2014_SECRET_ACCESS_KEY }}
+
+      - name: Run tests with pytest
+        run: uv run pytest src/tests/ --cov=src/ --cov-report=xml
+
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v4
+        with:
+          file: ./coverage.xml
