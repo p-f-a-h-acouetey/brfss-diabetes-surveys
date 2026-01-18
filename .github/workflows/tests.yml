@@ -37,7 +37,7 @@ jobs:
         run: rm -rf .dvc/tmp
 
       - name: Pull DVC data from S3 for tests
-        run: uv run dvc pull src/tests/
+        run: find src/tests/ -name "*.dvc" -exec uv run dvc pull {} \;
 
       - name: Run pytest with coverage
         run: uv run pytest src/tests/ --cov=src/ --cov-report=term-missing
