@@ -29,8 +29,7 @@ class SurveyLoader:
         """
         if not data_path.endswith(".parquet"):
             raise ValueError(
-                f" Invalid file format! Expected .parquet, got '{data_path}' \n"
-                f" Please provide a valid Parquet file path"
+                " Invalid file format! Expected a path ending with .parquet"
             )
         self.data_path = data_path
         self.logger = logging.getLogger(__name__)
@@ -58,12 +57,7 @@ class SurveyLoader:
         missing_cols = required_cols - set(df.columns)
 
         if missing_cols:
-            raise ValueError(
-                f"Missing required columns in {self.data_path}:\n"
-                f"Expected: {required_cols}\n"
-                f"Missing: {missing_cols}\n"
-                f"Found: {set(df.columns)}"
-            )
+            raise ValueError(f"Missing cols: {missing_cols}")
 
         df = df[sorted(required_cols)]
         self.logger.info("Enforcing data types...")
