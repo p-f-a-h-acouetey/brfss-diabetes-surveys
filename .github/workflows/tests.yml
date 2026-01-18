@@ -7,7 +7,7 @@ on:
     branches: [ "main", "develop" ]
 
 permissions:
-  contents: read  # Reduced permissions (safer)
+  contents: read
 
 jobs:
   test:
@@ -23,17 +23,21 @@ jobs:
       - name: Install dependencies
         run: uv sync --dev
 
-      - name: Configure DVC for S3
-        env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.DVC_US_PR_DIABETES_TRENDS_2000_2014_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.DVC_US_PR_DIABETES_TRENDS_2000_2014_SECRET_ACCESS_KEY }}
+      - name: Configure AWS Credentials for DVC
         run: |
-          # Configure AWS credentials as env vars (DVC reads these automatically)
-          echo "DVC configured with S3 credentials"
+          mkdir -p ~/.aws
+          echo "[profile dvc-us-pr-diabetes-trends-2000-2014]" > ~/.aws/config
+          echo "aws_access_key_id=${{ secrets.DVC_US_PR_DIABETES_TRENDS_2000_2014_ACCESS_KEY_ID }}" >> ~/.aws/config
+          echo "aws_secret_access_key=${{ secrets.DVC_US_PR_DIABETES_TRENDS_2000_2014_SECRET_ACCESS_KEY }}" >> ~/.aws/config
 
       - name: Check DVC health
         run: uv run dvc doctor
 
+      - name: Clean DVC Temporary Files
+        run: rm -rf .dvc/tmp
+
+      - name: Pull DVC data from S3 for tests
+        run: uv run dvc pull src/tests/
+
       - name: Run pytest with coverage
-        run: |
-          uv run pytest src/tests/ --cov=src/ --cov-report=term-missing
+        run: uv run pytest src/tests/ --cov=src/ --cov-report=term-missing

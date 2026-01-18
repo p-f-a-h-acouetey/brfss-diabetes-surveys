@@ -59,9 +59,9 @@ class TestSurveyLoader:
         """Test fixture file loads correctly."""
         fixture_path = "./src/tests/unit/loaders/fixtures/samples.parquet"
         loader = SurveyLoader(fixture_path)
-        result = loader.load_df()
+        result_df = loader.load_df()
         assert_frame_equal(
-            result.reset_index(drop=True), expected_df.reset_index(drop=True)
+            result_df.reset_index(drop=True), expected_df.reset_index(drop=True)
         )
 
     def test_invalid_extension_raises(self):
