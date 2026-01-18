@@ -3,3 +3,4 @@
 *.parquet
 .venv
 .coverage
+.notebooks/ipynb_checkpoints/
