@@ -1,4 +1,4 @@
-name: Test us-pr-diabetes-trends-2000-2014
+name: Test brfss-diabetes-surveys
 
 on:
   push:
@@ -27,8 +27,8 @@ jobs:
         run: |
           mkdir -p ~/.aws
           echo "[profile dvc-us-pr-diabetes-trends-2000-2014]" > ~/.aws/config
-          echo "aws_access_key_id=${{ secrets.DVC_US_PR_DIABETES_TRENDS_2000_2014_ACCESS_KEY_ID }}" >> ~/.aws/config
-          echo "aws_secret_access_key=${{ secrets.DVC_US_PR_DIABETES_TRENDS_2000_2014_SECRET_ACCESS_KEY }}" >> ~/.aws/config
+          echo "aws_access_key_id=${{ secrets.DVC_BRFSS_DIABETES_SURVEYS_ACCESS_KEY_ID }}" >> ~/.aws/config
+          echo "aws_secret_access_key=${{ secrets.DVC_BRFSS_DIABETES_SURVEYS_SECRET_ACCESS_KEY }}" >> ~/.aws/config
 
       - name: Check DVC health
         run: uv run dvc doctor
@@ -37,7 +37,7 @@ jobs:
         run: rm -rf .dvc/tmp
 
       - name: Pull DVC data from S3 for tests
-        run: find src/tests/ -name "*.dvc" -exec uv run dvc pull {} \;
+        run: find src/tests/ -name "*.dvc" -exec uv run dvc pull --allow-missing {} \;
 
       - name: Run pytest with coverage
         run: uv run pytest src/tests/ --cov=src/ --cov-report=term-missing

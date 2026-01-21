@@ -1,4 +1,4 @@
-name: Release us-pr-diabetes-trends-2000-2014
+name: Release brfss-diabetes-surveys
 
 on:
   push:
