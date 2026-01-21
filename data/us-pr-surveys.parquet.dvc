@@ -1,0 +1,5 @@
+outs:
+- md5: dafef37b92f7af21a104dfad37f8d730
+  size: 1377880
+  hash: md5
+  path: us-pr-surveys.parquet

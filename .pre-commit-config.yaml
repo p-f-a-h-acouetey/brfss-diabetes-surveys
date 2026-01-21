@@ -1,0 +1,48 @@
+# .pre-commit-config.yaml - AUTOMATIC CODE QUALITY FOR ANY PYTHON PROJECT
+# Runs before EVERY git commit
+repos:
+
+  # ═══════════════════════════════════════════════════════════════════════════
+  # 1. RUFF - LINTING + FORMATTING
+  # ═══════════════════════════════════════════════════════════════════════════
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.14.0
+    hooks:
+      # DETECTS + AUTO-FIXES linting errors
+      - id: ruff-check
+        args: [--fix, --exit-non-zero-on-fix]
+        # --fix: Removes unused imports, adds missing imports, fixes syntax
+        # --exit-non-zero-on-fix: BLOCKS commit if changes made (forces review)
+        # EXAMPLE: import os → removed if unused
+
+      # FORMATS code (Black-compatible, line length, spacing, quotes)
+      - id: ruff-format
+        # Ensures consistent style across team - zero configuration needed
+
+  # ═══════════════════════════════════════════════════════════════════════════
+  # 2. FILE CLEANLINESS
+  # ═══════════════════════════════════════════════════════════════════════════
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.6.0
+    hooks:
+      # VALIDATES YAML/JSON config files
+      - id: check-yaml
+        # Catches: wrong indentation, missing colons, invalid syntax
+
+      # ENSURES proper file endings (PEP8)
+      - id: end-of-file-fixer
+        # Adds missing newline at end of files
+
+      # REMOVES stray whitespace
+      - id: trailing-whitespace
+        # Clean git diffs - no "whitespace-only" commits
+
+  # ═══════════════════════════════════════════════════════════════════════════
+  # 3. UV LOCK - REPRODUCIBLE DEPENDENCIES
+  # ═══════════════════════════════════════════════════════════════════════════
+  - repo: https://github.com/astral-sh/uv-pre-commit
+    rev: 0.9.26
+    hooks:
+      # SYNC uv.lock with pyproject.toml before commit
+      - id: uv-lock
+        # Prevents: "works on my machine" → same package versions everywhere

@@ -1,0 +1,8 @@
+.idea
+*.csv
+*.parquet
+.venv
+.coverage
+.notebooks/ipynb_checkpoints/
+*.ipynb_checkpoints/
+.ipynb_checkpoints/
