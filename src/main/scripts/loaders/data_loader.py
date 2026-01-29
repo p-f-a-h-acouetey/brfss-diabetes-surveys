@@ -5,20 +5,24 @@ from src.main.scripts.loaders.utils import extract_html_text
 
 
 logging.basicConfig(
-    level=logging.INFO,
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+    level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
 )
 logger = logging.getLogger(__name__)
 
+
 class DataLoader:
     def __init__(self, data_path, description_path):
-        logger.info(f"Initializing DataLoader with data_path='{data_path}', description_path='{description_path}'")
+        logger.info(
+            f"Initializing DataLoader with data_path='{data_path}', description_path='{description_path}'"
+        )
 
-        if not data_path.endswith('.xpt'):
+        if not data_path.endswith(".xpt"):
             logger.error(f"Invalid data_path: '{data_path}' - must end in .xpt")
             raise ValueError("Your DataPath must end in .xpt")
-        if not description_path.endswith('.HTML'):
-            logger.error(f"Invalid description_path: '{description_path}' - must end in .HTML")
+        if not description_path.endswith(".HTML"):
+            logger.error(
+                f"Invalid description_path: '{description_path}' - must end in .HTML"
+            )
             raise ValueError("Your DescriptionPath must end in .HTML")
 
         self.data_path = data_path
@@ -32,7 +36,9 @@ class DataLoader:
         logger.info(f"Reading XPT data from: {self.data_path}")
 
         try:
-            df, metadata = pyreadstat.read_xport(self.data_path, encoding=DATA_CONFIGS['encoding'])
+            df, metadata = pyreadstat.read_xport(
+                self.data_path, encoding=DATA_CONFIGS["encoding"]
+            )
             logger.debug(f"Raw data loaded: {df.shape[0]} rows, {df.shape[1]} columns")
 
             if df.empty:
@@ -40,7 +46,9 @@ class DataLoader:
                 raise ValueError("Your DataFrame contains ZERO row")
 
             self.data = df.copy()
-            logger.info(f"Data loaded successfully: {self.data.shape[0]} rows, {self.data.shape[1]} columns")
+            logger.info(
+                f"Data loaded successfully: {self.data.shape[0]} rows, {self.data.shape[1]} columns"
+            )
 
         except Exception as e:
             logger.error(f"Failed to read XPT file {self.data_path}: {str(e)}")
@@ -58,10 +66,14 @@ class DataLoader:
                 raise ValueError("Your Description is empty")
 
             self.description = text
-            logger.info(f"Description loaded successfully: {len(self.description)} characters")
+            logger.info(
+                f"Description loaded successfully: {len(self.description)} characters"
+            )
 
         except Exception as e:
-            logger.error(f"Failed to read description {self.description_path}: {str(e)}")
+            logger.error(
+                f"Failed to read description {self.description_path}: {str(e)}"
+            )
             raise
 
     def full_load(self):
@@ -75,6 +87,3 @@ class DataLoader:
         except Exception as e:
             logger.error(f"full_load() failed: {str(e)}")
             raise
-
-
-
