@@ -26,7 +26,7 @@ jobs:
       - name: Configure AWS Credentials for DVC
         run: |
           mkdir -p ~/.aws
-          echo "[profile dvc-us-pr-diabetes-trends-2000-2014]" > ~/.aws/config
+          echo "[profile dvc-brfss-diabetes-surveys]" > ~/.aws/config
           echo "aws_access_key_id=${{ secrets.DVC_BRFSS_DIABETES_SURVEYS_ACCESS_KEY_ID }}" >> ~/.aws/config
           echo "aws_secret_access_key=${{ secrets.DVC_BRFSS_DIABETES_SURVEYS_SECRET_ACCESS_KEY }}" >> ~/.aws/config
 
