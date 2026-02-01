@@ -2,6 +2,14 @@
 
 <!-- version list -->
 
+## v1.2.0 (2026-02-01)
+
+### Features
+
+- Finalize loading and cleaning scripts to start EDA in ml_poc
+  ([`30540d5`](https://github.com/p-f-a-h-acouetey/brfss-diabetes-surveys/commit/30540d53cfa7f19a09af11364bd9d422cd35ad06))
+
+
 ## v1.1.0 (2026-01-29)
 
 ### Features
