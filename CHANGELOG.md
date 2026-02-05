@@ -2,6 +2,14 @@
 
 <!-- version list -->
 
+## v1.2.1 (2026-02-05)
+
+### Bug Fixes
+
+- Correct project folders structure
+  ([`9bbdc89`](https://github.com/p-f-a-h-acouetey/brfss-diabetes-surveys/commit/9bbdc8910a17cff131524ddf3366687b9d22b073))
+
+
 ## v1.2.0 (2026-02-01)
 
 ### Features
