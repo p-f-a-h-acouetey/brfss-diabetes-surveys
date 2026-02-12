@@ -2,6 +2,17 @@
 
 <!-- version list -->
 
+## v1.2.2 (2026-02-12)
+
+### Bug Fixes
+
+- Correct project structure, and ETL
+  ([`bf9f340`](https://github.com/p-f-a-h-acouetey/brfss-diabetes-surveys/commit/bf9f3400d612a4c77e370387709514fb6f2b2a85))
+
+- Correct test_etl_pipeline for CI to work
+  ([`e99e7eb`](https://github.com/p-f-a-h-acouetey/brfss-diabetes-surveys/commit/e99e7eb807b0bbf95d74820d7d2153c738b12a46))
+
+
 ## v1.2.1 (2026-02-05)
 
 ### Bug Fixes
