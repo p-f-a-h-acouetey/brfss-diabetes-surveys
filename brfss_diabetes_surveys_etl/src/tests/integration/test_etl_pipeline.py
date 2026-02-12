@@ -27,10 +27,19 @@ class TestETLPipeline(unittest.TestCase):
         },  # Control on CLEANING_CONFIGS for only 'DIABETE4'
         clear=True,
     )
+    @patch.dict(
+        "brfss_diabetes_surveys_etl.src.main.configs.sinkers.data_sinker.SINK_CONFIGS",
+        {"path": "/tmp/test_sink", "format": ".parquet"},
+        clear=True,
+    )
     def test_run_success(self, mock_read_xport):
         # Mock ONLY XPT reading
         mock_df = pd.DataFrame({"_LLCPWT": [1.2, 1.1, 1.1], "DIABETE4": [1, 4, 4]})
         mock_read_xport.return_value = (mock_df, None)
+
+        import os
+
+        os.makedirs("/tmp/test_sink", exist_ok=True)
 
         # Run pipeline with mocked XPT
         pipeline = ETLPipeline(self.raw_data_path)
