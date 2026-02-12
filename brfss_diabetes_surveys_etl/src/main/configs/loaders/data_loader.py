@@ -1,1 +1,1 @@
-DATA_CONFIGS = {"encoding": "windows-1252"}
+LOADING_CONFIGS = {"encoding": "windows-1252"}
