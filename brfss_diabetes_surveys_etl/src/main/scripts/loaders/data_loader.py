@@ -1,14 +1,10 @@
 import pyreadstat
-import logging
+import loguru
 from brfss_diabetes_surveys_etl.src.main.configs.loaders.data_loader import (
     LOADING_CONFIGS,
 )
 
-
-logging.basicConfig(
-    level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
-)
-logger = logging.getLogger(__name__)
+logger = loguru.logger
 
 
 class DataLoader:
@@ -28,9 +24,6 @@ class DataLoader:
 
         raw_df, metadata = pyreadstat.read_xport(
             self.raw_data_path, encoding=LOADING_CONFIGS["encoding"]
-        )
-        logger.debug(
-            f"Raw data loaded: {raw_df.shape[0]} rows, {raw_df.shape[1]} columns"
         )
 
         if raw_df.empty:
