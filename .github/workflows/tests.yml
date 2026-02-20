@@ -41,3 +41,9 @@ jobs:
 
       - name: Run pytest with coverage for ETL tests
         run: uv run pytest brfss_diabetes_surveys_etl/src/tests/ --cov=brfss_diabetes_surveys_etl/src/ --cov-report=term-missing
+
+      - name: Pull DVC data from S3 for ML tests
+        run: find brfss_diabetes_surveys_ml/src/tests/ -name "*.dvc" -exec uv run dvc pull --allow-missing {} \;
+
+      - name: Run pytest with coverage for ML tests
+        run: uv run pytest brfss_diabetes_surveys_ml/src/tests/ --cov=brfss_diabetes_surveys_ml/src/ --cov-report=term-missing

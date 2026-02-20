@@ -1,11 +1,8 @@
-import logging
+import loguru
 import pandas as pd
 from brfss_diabetes_surveys_etl.src.main.configs.sinkers.data_sinker import SINK_CONFIGS
 
-logging.basicConfig(
-    level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
-)
-logger = logging.getLogger(__name__)
+logger = loguru.logger
 
 
 class DataSinker:
