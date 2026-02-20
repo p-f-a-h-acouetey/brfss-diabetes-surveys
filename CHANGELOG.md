@@ -2,6 +2,14 @@
 
 <!-- version list -->
 
+## v1.3.0 (2026-02-20)
+
+### Features
+
+- Perform eda on data (encode some features, remove some samples)
+  ([`5b9fff6`](https://github.com/p-f-a-h-acouetey/brfss-diabetes-surveys/commit/5b9fff6623ca8dbdfe0f3a6b14ba5add6181e8a6))
+
+
 ## v1.2.2 (2026-02-12)
 
 ### Bug Fixes
